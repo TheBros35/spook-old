@@ -2,8 +2,7 @@ version: "3"
 
 services:
   spook:
-    #image: thebros35/spook
-    image: spook:latest
+    image: thebros35/spook
     ports:
       - "4321:8000"
     volumes:
