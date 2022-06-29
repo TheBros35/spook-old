@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  spook:
+    #image: thebros35/spook
+    image: spook:latest
+    ports:
+      - "4321:8000"
+    volumes:
+      - spookVolume:/app/db
+
+volumes:
+  spookVolume:

@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Spook!</title>
+    <link rel="stylesheet" href="static/vanilla-framework-version-3.5.0.min.css" />
+</head>
+<body>
+
+    <div class="row">
+        <table>
+            <tr><th>Mac Address</th><th>Action</th></tr>
+            {% for ele in address_list %}
+                <tr><td>{{ ele }}</td><td><form action="/send" method="get"><button class="p-button--positive" type="submit" name="mac_address" value="{{ ele }}">Send</button></form></td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="row">
+        <table>
+            <tr><th>Add new Mac Address</th></tr>
+            <tr><td><form action="/add" method="get"><input name="mac_address" required /> <button class="p-button" type="submit">Add</button> </form></td></tr>
+        </table>
+    </div>
+
+    <div class="row">
+        <table>
+            <tr><th>Remove a Mac Address</th></tr>
+            <tr><td><form action="/delete" method="get"><input name="mac_address" required /> <button class="p-button--negative" type="submit">Remove</button> </form></td></tr>
+        </table>
+    </div>
+
+</body>
+</html>
