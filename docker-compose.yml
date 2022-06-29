@@ -5,6 +5,7 @@ services:
     image: thebros35/spook
     ports:
       - "4321:8000"
+      - "9:9"
     volumes:
       - spookVolume:/app/db
     restart: always
