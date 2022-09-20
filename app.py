@@ -19,10 +19,7 @@ def index():  # put application's code here
 def send_packet():
     mac_address = request.args.get('mac_address')
     broadcast_address = return_broadcast_address()
-    if broadcast_address == "":
-        send_magic_packet(mac_address)
-    else:
-        send_magic_packet(mac_address, broadcast_address)
+    send_magic_packet(mac_address)
     return redirect('/')
 
 
@@ -58,31 +55,6 @@ def remove_entry():
         json.dump(db_dict, db_file)
 
     return redirect('/')
-
-
-@app.get('/updateBroadcast')
-def update_broadcast_address():
-    new_broadcast_address = request.args.get('broadcast_address')
-
-    with open(DB_FILE) as db_file:
-        db_dict = json.load(db_file)
-
-    db_dict["broadcast_address"] = new_broadcast_address
-
-    with open(DB_FILE, 'w') as db_file:
-        json.dump(db_dict, db_file)
-
-    return redirect('/')
-
-
-def return_broadcast_address():
-    with open(DB_FILE) as db_file:
-        db_dict = json.load(db_file)
-    broadcast_address = db_dict["broadcast_address"]
-    if not broadcast_address:
-        return ""
-    else:
-        return broadcast_address
 
 
 if __name__ == '__main__':
