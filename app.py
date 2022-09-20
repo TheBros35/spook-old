@@ -69,8 +69,10 @@ def update_broadcast_address():
 
     db_dict["broadcast_address"] = new_broadcast_address
 
-    with open(DB_FILE) as db_file:
+    with open(DB_FILE, 'w') as db_file:
         json.dump(db_dict, db_file)
+
+    return redirect('/')
 
 
 def return_broadcast_address():
