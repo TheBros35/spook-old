@@ -18,7 +18,6 @@ def index():  # put application's code here
 @app.get('/send')
 def send_packet():
     mac_address = request.args.get('mac_address')
-    broadcast_address = return_broadcast_address()
     send_magic_packet(mac_address)
     return redirect('/')
 
