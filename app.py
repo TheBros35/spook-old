@@ -8,7 +8,8 @@ import os
 app = Flask(__name__)
 DB_FILE = 'db/db.json'
 LOG_FILE = 'spook.log'
-os.remove(LOG_FILE)
+if os.path.exists(LOG_FILE):
+    os.remove(LOG_FILE)
 logging.basicConfig(filename=LOG_FILE, encoding='utf-8', level=logging.WARNING, format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
