@@ -2,9 +2,12 @@ from flask import Flask, request, render_template, redirect
 from wakeonlan import send_magic_packet
 import json
 import re
+import logging
 
 app = Flask(__name__)
 DB_FILE = 'db/db.json'
+logging.basicConfig(filename='spook.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
 @app.route('/')
@@ -19,6 +22,7 @@ def index():  # put application's code here
 def send_packet():
     mac_address = request.args.get('mac_address')
     send_magic_packet(mac_address)
+    logging.info(f'Sent packet to {mac_address}')
     return redirect('/')
 
 
@@ -36,6 +40,7 @@ def add_entry():
         with open(DB_FILE, 'w') as db_file:
             json.dump(db_dict, db_file)
 
+        logging.info(f'Added new address {mac_address}')
         return redirect('/')
     else:
         return render_template('error_format.jinja2', mac_address=mac_address)
@@ -53,6 +58,7 @@ def remove_entry():
     with open(DB_FILE, 'w') as db_file:
         json.dump(db_dict, db_file)
 
+    logging.info(f'Deleted address {mac_address}')
     return redirect('/')
 
 
