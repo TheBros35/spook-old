@@ -3,10 +3,13 @@ from wakeonlan import send_magic_packet
 import json
 import re
 import logging
+import os
 
 app = Flask(__name__)
 DB_FILE = 'db/db.json'
-logging.basicConfig(filename='spook.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s %(message)s',
+LOG_FILE = 'spook.log'
+os.remove(LOG_FILE)
+logging.basicConfig(filename=LOG_FILE, encoding='utf-8', level=logging.WARNING, format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
@@ -22,7 +25,7 @@ def index():  # put application's code here
 def send_packet():
     mac_address = request.args.get('mac_address')
     send_magic_packet(mac_address)
-    logging.info(f'Sent packet to {mac_address}')
+    logging.warning(f'Sent packet to {mac_address}')
     return redirect('/')
 
 
@@ -40,7 +43,7 @@ def add_entry():
         with open(DB_FILE, 'w') as db_file:
             json.dump(db_dict, db_file)
 
-        logging.info(f'Added new address {mac_address}')
+        logging.warning(f'Added new address {mac_address}')
         return redirect('/')
     else:
         return render_template('error_format.jinja2', mac_address=mac_address)
@@ -58,8 +61,15 @@ def remove_entry():
     with open(DB_FILE, 'w') as db_file:
         json.dump(db_dict, db_file)
 
-    logging.info(f'Deleted address {mac_address}')
+    logging.warning(f'Deleted address {mac_address}')
     return redirect('/')
+
+
+@app.route('/viewLog')
+def view_log():
+    with open(LOG_FILE) as log_file:
+        log_list = log_file.readlines()
+    return render_template('view_log.jinja2', log=log_list)
 
 
 if __name__ == '__main__':
